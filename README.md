@@ -1,2 +1,2 @@
 # NoMult
-Bukkit plugin, нет мультам на сервере!
+Minecraft bukkit plugin, нет мультам на сервере!
