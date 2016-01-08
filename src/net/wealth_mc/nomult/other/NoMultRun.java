@@ -1,9 +1,10 @@
 package net.wealth_mc.nomult.other;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import net.wealth_mc.nomult.NoMult;
-import net.wealth_mc.nomult.NoMultList;
 import net.wealth_mc.nomult.check.CheckMult;
 import net.wealth_mc.nomult.check.CheckMultNotMult;
 import net.wealth_mc.nomult.check.CheckMultPlayer;
@@ -12,16 +13,21 @@ import net.wealth_mc.nomult.check.CheckPerm;
 
 public class NoMultRun implements Runnable {
 	
-	public NoMultRun() {		
-//		Constructor
+	private Player player;
+	private Thread thread;
+	private String ppn;
+	private String pip; 
+
+	public NoMultRun(Player p) {
+		this.player = p;
+		this.pip = p.getAddress().getAddress().toString();
+		this.ppn = p.getName();
+		thread = new Thread(this, "RunLogin: " + p.getName());
+		thread.start();
 	}
 	
 	@Override
 	public void run() {
-		Player p = NoMultList.listen.player;
-		
-		String ppn = NoMultList.listen.pname;
-		String pip = NoMultList.listen.pip;
 		String ign = "nomult.ignore";
 		String pri = "nomult.priority";  
 		String adm = "nomult.admin";
@@ -29,7 +35,6 @@ public class NoMultRun implements Runnable {
 		String mult = NoMult.instance.ngroup;
 		String dgrp = NoMult.instance.defgroup;
 		
-//		CheckMultIP checkmultip;
 		CheckNotMult checknotmult = new CheckNotMult();
 		CheckPerm checkperm = new CheckPerm();    
 		CheckMult checkmult = new CheckMult();
@@ -42,27 +47,24 @@ public class NoMultRun implements Runnable {
 		NoMultGroups checkgroups = null;
 		
 		if (NoMult.instance.debug) NoMult.instance.getLogger().info("Игрок: " + ppn + " залогинился на сервере с адресом: " + pip + " Начинаем проверку ...");
-		if (nmvault.playerInGroup(p, mult)) {
+		if (nmvault.playerInGroup(player, mult)) {
 // ************* если игрок в группе мультов, убираем его оттуда ***************************
 			checkgroups = new NoMultGroups();
 			String ogroup = checkgroups.inOldGroupPlayerRM(ppn);
-			nmvault.playerRemoveGroup(p, mult);
-//			try {
-				if (!ogroup.equals(dgrp)) {
-				nmvault.playerAddGroup(p, ogroup);
+			nmvault.playerRemoveGroup(player, mult);
+			if (!ogroup.equals(dgrp)) {
+				nmvault.playerAddGroup(player, ogroup);
 				}
-//			} catch (Exception e){
-//		     }
 			if (NoMult.instance.debug) NoMult.instance.getLogger().info("Игрок " + ppn + " был в списке мультов, в начале проверки возвращена группа: " + ogroup);							
 		}
 		
-		if (checkperm.ceckPerm(p, ign) || checkperm.ceckPerm(p, adm)) {
+		if (checkperm.ceckPerm(player, ign) || checkperm.ceckPerm(player, adm)) {
 // ************* если у игрока есть права - "nomult.ignore" ********************************
 			if (NoMult.instance.debug) NoMult.instance.getLogger().info("Игрок: " + ppn + " Имеет право: - " + ign + " Проверка завершена!");			
 			return;						
 		}
 		
-		if (!checkperm.ceckPerm(p, pri)) {
+		if (!checkperm.ceckPerm(player, pri)) {
 			if (checkmult.checkMult(ppn, pip)) {
 				if (checknotmult.checkNotMult(ppn)) {
 					if (multnotmult.checkMultNotMult(ppn, pip)) {
@@ -70,14 +72,21 @@ public class NoMultRun implements Runnable {
 						if (NoMult.instance.debug) NoMult.instance.getLogger().info("адрес: " + pip + " приствуют мульты, игрок: " + ppn + " есть в базе (Не Мульт), но есть совпадения по IP с другими игроками категории (Не Мульт)");
 						multplayerip.addMultPlayerIP(ppn, pip);
 						if (NoMult.instance.debug) NoMult.instance.getLogger().info("Игрок: " + ppn + " обновлен в базе (Nick-IP) с адресом: " + pip);
-						group = nmvault.getPrimaryGroup(p);								
-						nmvault.playerRemoveGroup(p, group);
-						nmvault.playerAddGroup(p, mult);
+						group = nmvault.getPrimaryGroup(player);								
+						nmvault.playerRemoveGroup(player, group);
+						nmvault.playerAddGroup(player, mult);
 						if (NoMult.instance.debug) NoMult.instance.getLogger().info("Игроку " + ppn + " изменена группа, на: " + mult);
 						try {																			
 							NoMult.instance.groups.put(ppn, group);					
 					     } catch (Exception e){
-					     }						
+					     }
+						new BukkitRunnable() {
+				            @Override
+				            public void run() {
+				            	NoMult.instance.getServer().broadcastMessage(ChatColor.GRAY + ppn 
+				            + NoMult.plmult);
+				            }
+				        }.runTaskLater(NoMult.instance, 2);
 						return;
 // ********************* ПО ОБНАРУЖЕННОМУ МУЛЬТИАКАУНТУ РАБОТА ЗАВЕРШЕНА *********************								
 					}
@@ -89,10 +98,17 @@ public class NoMultRun implements Runnable {
 				if (NoMult.instance.debug) NoMult.instance.getLogger().info("адрес: " + pip + " приствуют мульты, игрок: " + ppn + " есть в базе (Не Мульт), но есть совпадения по IP с другими игроками категории (Не Мульт)");
 				multplayerip.addMultPlayerIP(ppn, pip);
 				if (NoMult.instance.debug) NoMult.instance.getLogger().info("Игрок: " + ppn + " обновлен в базе (Nick-IP) с адресом: " + pip);
-				group = nmvault.getPrimaryGroup(p);								
-				nmvault.playerRemoveGroup(p, group);
-				nmvault.playerAddGroup(p, mult);
+				group = nmvault.getPrimaryGroup(player);								
+				nmvault.playerRemoveGroup(player, group);
+				nmvault.playerAddGroup(player, mult);
 				if (NoMult.instance.debug) NoMult.instance.getLogger().info("Игроку " + ppn + " изменена группа, на: " + mult);
+				new BukkitRunnable() {
+		            @Override
+		            public void run() {
+		            	NoMult.instance.getServer().broadcastMessage(ChatColor.GRAY + ppn 
+		            + NoMult.plmult);
+		            }
+		        }.runTaskLater(NoMult.instance, 2);
 				try {																			
 					NoMult.instance.groups.put(ppn, group);					
 			     } catch (Exception e){
@@ -108,6 +124,13 @@ public class NoMultRun implements Runnable {
 				NoMult.instance.getLogger().info("Игрок: " + ppn + " добавлен в базу (Nick-IP) с адресом: " + pip);
 				NoMult.instance.getLogger().info("Игрок: " + ppn + " Добавлен в базу (Not-Mult)");
 				}
+				new BukkitRunnable() {
+		            @Override
+		            public void run() {
+		            	NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + ppn + ChatColor.YELLOW
+								+ NoMult.plreg);
+		            }
+		        }.runTaskLater(NoMult.instance, 2);
 				return;
 			}
 			multplayerip.addMultPlayerIP(ppn, pip);

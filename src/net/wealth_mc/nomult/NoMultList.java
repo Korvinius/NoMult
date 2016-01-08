@@ -15,40 +15,56 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import fr.xephi.authme.events.LoginEvent;
+import fr.xephi.authme.events.LogoutEvent;
 
 public class NoMultList implements Listener {
-		
-	public static NoMultList listen;
-	public Player player;
-	public String pname;
-	public String pip; 
+
 	public NoMult plg;			
 	public NoMultList(NoMult noMult) {
 		this.plg = noMult;
 	}
+
 	@EventHandler
 	public void onJoinPlayer (PlayerJoinEvent event) {
-		event.setJoinMessage(null);
+		if (NoMult.blockjoin) event.setJoinMessage(null);
 	}
+
 	@EventHandler
 	   public void onQuitPlayer(PlayerQuitEvent event){
-		event.setQuitMessage(null);
+		if (NoMult.blockleave) event.setQuitMessage(null);
 	}
+
 	@EventHandler
 	public void onAuthLoginEvent(LoginEvent event) {
-		listen = this;
-		player = event.getPlayer();
-		pname = player.getName();
-		pip = player.getAddress().getAddress().toString();
-		if (NoMult.instance.pjoin && !event.getPlayer().hasPermission("nomult.spy")) {
-			NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + event.getPlayer().getName() + ": " + ChatColor.YELLOW + NoMult.instance.plogin);
-		}
-		NoMultRun r = new NoMultRun();
-		Thread ch = new Thread(r);
-		ch.start();
+		if (NoMult.pjoin) checkAuthLoginEvent(event);
 	}
+
+	@EventHandler
+	public void onAuthLogoutEvent(LogoutEvent event) {
+		checkAuthLogoutEvent(event);
+	}
+
 	@EventHandler(priority = EventPriority.LOW)
 	public void onEntityDamage(EntityDamageEvent event) {
+		checkEntityDamage(event);
+	}
+
+	private void checkAuthLogoutEvent(LogoutEvent event) {
+		if (!event.getPlayer().hasPermission("nomult.spy")) {
+			NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + event.getPlayer().getName() 
+					+ ChatColor.YELLOW + NoMult.plogout);
+		}
+	}
+	private void checkAuthLoginEvent(LoginEvent event) {
+		Player player = event.getPlayer();
+		if (!event.getPlayer().hasPermission("nomult.spy")) {
+			NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + event.getPlayer().getName() 
+					+ ChatColor.YELLOW + NoMult.plogin);
+		}
+		new NoMultRun(player);
+	}
+
+	private void checkEntityDamage(EntityDamageEvent event) {
 		if (NoMult.instance.pvp) {
 
 			Player damager;

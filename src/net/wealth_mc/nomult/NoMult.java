@@ -31,8 +31,13 @@ public class NoMult extends JavaPlugin {
 	public String ngroup;
 	public String defgroup;
 	public long times;
-	public boolean pjoin;
-	public String plogin;
+	public static boolean pjoin;
+	public static boolean blockjoin;
+	public static boolean blockleave;
+	public static String plogin;
+	public static String plogout;
+	public static String plmult;
+	public static String plreg;
 	public boolean pvp = true;
 	
 	@Override
@@ -48,6 +53,11 @@ public class NoMult extends JavaPlugin {
 		times = config.getLong("times");
 		plogin = config.getString("message");
 		pjoin  = config.getBoolean("login");
+		plogout = config.getString("message2");
+		plmult = config.getString("message3");
+		plreg = config.getString("message4");
+		blockjoin  = config.getBoolean("blockjoin");
+		blockleave  = config.getBoolean("blockleave");
 		pvp  = config.getBoolean("pvp");
 		
 		yamlmult.saveDefaultMult();
@@ -90,6 +100,11 @@ public class NoMult extends JavaPlugin {
 		defgroup = this.getConfig().getString("default");
 		plogin = this.getConfig().getString("message");
 		pjoin  = this.getConfig().getBoolean("login");
+		plogout = this.getConfig().getString("message2");
+		plmult = config.getString("message3");
+		plreg = config.getString("message4");
+		blockjoin  = this.getConfig().getBoolean("blockjoin");
+		blockleave  = this.getConfig().getBoolean("blockleave");
 		pvp  = this.getConfig().getBoolean("pvp");
 	}
 	

@@ -8,7 +8,7 @@ public class NotMultPlayer {
 			NoMult.instance.notmult.add(p);
 	}
 	
-	public boolean addNotMultPlayers(String p) {
+	public static boolean addNotMultPlayers(String p) {
 		if (!NoMult.instance.notmult.contains(p)) {
 			NoMult.instance.notmult.add(p);
 			return true;
@@ -16,7 +16,7 @@ public class NotMultPlayer {
 		return false;
 	}
 	
-	public boolean rmNotMultPlayer(String p) {
+	public static boolean rmNotMultPlayer(String p) {
 		if (NoMult.instance.notmult.contains(p)) {
 			 NoMult.instance.notmult.remove(p);
 			 return true;
@@ -24,7 +24,7 @@ public class NotMultPlayer {
 		 return false;			 
 	}
 	
-	public boolean replNotMultPlayer(String p1, String p2) {
+	public static boolean replNotMultPlayer(String p1, String p2) {
 		 if (NoMult.instance.notmult.contains(p1)) {
 			 NoMult.instance.notmult.remove(p1);
 			 NoMult.instance.notmult.add(p2);
