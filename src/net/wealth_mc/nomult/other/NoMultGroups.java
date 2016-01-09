@@ -1,5 +1,6 @@
 package net.wealth_mc.nomult.other;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import net.wealth_mc.nomult.NoMult;
@@ -33,23 +34,15 @@ public class NoMultGroups {
 	     }
 		return group;
     }
-	
-	public synchronized void delOldGroupPlayer(String p){
-		for(Map.Entry<String, String> entry : NoMult.instance.groups.entrySet()) {
-			if(entry.getKey().equals(p)) {
-				NoMult.instance.groups.remove(p);
-			}
-		}
-    }
 
 	public static boolean delPlayer(String p){
-		boolean is = false;
-		for(Map.Entry<String, String> entry : NoMult.instance.groups.entrySet()) {
+		for(Iterator<Map.Entry<String, String>> it = NoMult.instance.groups.entrySet().iterator(); it.hasNext(); ) {
+			Map.Entry<String, String> entry = it.next();
 			if(entry.getKey().equals(p)) {
-				NoMult.instance.groups.remove(p);
-			is = true;	
+				it.remove();
+				return true;
 			}
 		}
-		return is;
+		return false;
 	}
 }

@@ -22,7 +22,7 @@ public class NoMultLogin implements Runnable {
 		playerAddRemove(player, addrm);
 	}
 
-	private static synchronized void playerAddRemove(Player p, boolean login) {
+	private synchronized void playerAddRemove(Player p, boolean login) {
 		if (login) {
 			NoMult.playerlogin.add(p);
 			if (!p.hasPermission("nomult.spy")) {

@@ -12,6 +12,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -22,6 +23,14 @@ public class NoMultList implements Listener {
 	public NoMult plg;			
 	public NoMultList(NoMult noMult) {
 		this.plg = noMult;
+	}
+
+	@EventHandler
+	public void onPlayerAchievementAwarded (PlayerAchievementAwardedEvent event) {
+		Player p = event.getPlayer();
+		if (!NoMult.playerlogin.contains(p)) {
+			event.setCancelled(true);
+		}
 	}
 
 	@EventHandler
@@ -42,7 +51,7 @@ public class NoMultList implements Listener {
 		Player player = event.getPlayer();
 		new NoMultRun(player);
 		if (NoMult.blockjoin) {
-			new NoMultLogin(event.getPlayer(), true);
+			new NoMultLogin(player, true);
 		}
 	}
 

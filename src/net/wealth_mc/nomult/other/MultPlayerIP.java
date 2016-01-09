@@ -1,7 +1,7 @@
 package net.wealth_mc.nomult.other;
 
-import java.util.Map.Entry;
-
+import java.util.Iterator;
+import java.util.Map;
 import net.wealth_mc.nomult.NoMult;
 
 public class MultPlayerIP{
@@ -14,21 +14,22 @@ public class MultPlayerIP{
 	}
 
 	public static boolean rmMultPlayer(String p) {
-		boolean is = false;
-		for(Entry<String, String> entry : NoMult.instance.mult.entrySet()) {
-			if(entry.getValue().equals(p)) {
-				NoMult.instance.mult.remove(entry);
-				is = true;
+		for(Iterator<Map.Entry<String, String>> it = NoMult.instance.mult.entrySet().iterator(); it.hasNext(); ) {
+			Map.Entry<String, String> entry = it.next();
+			if(entry.getKey().equals(p)) {
+				it.remove();
+				return true;
 			}
 		}
-		return is;
+		return false;
 	}
 
 	public static boolean rmMultIP(String ip) {
 		boolean is = false;
-		for(Entry<String, String> entry : NoMult.instance.mult.entrySet()) {
-			if(entry.getKey().equals(ip)) {
-				NoMult.instance.mult.remove(entry);
+		for(Iterator<Map.Entry<String, String>> it = NoMult.instance.mult.entrySet().iterator(); it.hasNext(); ) {
+			Map.Entry<String, String> entry = it.next();
+			if(entry.getValue().equals(ip)) {
+				it.remove();
 				is = true;
 			}
 		}
