@@ -9,6 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.wealth_mc.nomult.check.CheckMultNotMult;
+import net.wealth_mc.nomult.other.MultPlayerIP;
+import net.wealth_mc.nomult.other.NoMultGroups;
 import net.wealth_mc.nomult.other.NotMultPlayer;
 
 public class NoMultCmd implements CommandExecutor {
@@ -37,9 +39,51 @@ public class NoMultCmd implements CommandExecutor {
 			return cmdCheck(sender, args);
 		}else if (args[0].equalsIgnoreCase("my")) {
 			return cmdMy(sender);
+		}else if (args[0].equalsIgnoreCase("delall")) {
+			return cmdDel(sender, args);
 		}
-		
 		return false;
+	}
+
+	private boolean cmdDel(CommandSender sender, String[] args) {
+		String nick = null;
+		if (sender instanceof Player) {
+			if (sender.hasPermission("nomult.admin")) {
+				if (args.length == 1) {
+					sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: " + ChatColor.GOLD + "Не верный аргумент [args1]: /nomult removenm [args1], логин не может быть пустым");
+					return true;
+					} else {
+						nick = args[1];
+						if (NotMultPlayer.rmNotMultPlayer(nick)) {
+							sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: "  + ChatColor.GREEN + nick  + ChatColor.GOLD + " удален из списка (Не мульт)");
+						}else sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: "  + ChatColor.GREEN + nick  + ChatColor.GOLD + " отсутствует в списке (Не мульт)");
+						if (MultPlayerIP.rmMultPlayer(nick)) {
+							sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: "  + ChatColor.GREEN + nick  + ChatColor.GOLD + " удален из списка (Мульт)");
+						}else sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: "  + ChatColor.GREEN + nick  + ChatColor.GOLD + " отсутствует в списке (Мульт)");
+						if (NoMultGroups.delPlayer(nick)) {
+							sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: "  + ChatColor.GREEN + nick  + ChatColor.GOLD + " удален из списка (Group)");
+						}else sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: "  + ChatColor.GREEN + nick  + ChatColor.GOLD + " отсутствует в списке (Group)");
+
+						return true;
+					}						
+			}else {
+				sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: " + ChatColor.GOLD + "нет прав на удаление из списка (Не мульт)");
+				return true;						
+			}
+		}else if (args.length == 1) {
+			sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: " + ChatColor.GOLD + "Не верный аргумент [args1]: /nomult removenm [args1], логин не может быть пустым");
+			return true;
+			}
+		nick = args[1];
+		if (NotMultPlayer.rmNotMultPlayer(nick)) {
+			sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: "  + ChatColor.GREEN + nick  + ChatColor.GOLD + " удален из списка (Не мульт)");
+		}else sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: "  + ChatColor.GREEN + nick  + ChatColor.GOLD + " отсутствует в списке (Не мульт)");
+		if (MultPlayerIP.rmMultPlayer(nick)) {
+			sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: "  + ChatColor.GREEN + nick  + ChatColor.GOLD + " удален из списка (Мульт)");
+		}else sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: "  + ChatColor.GREEN + nick  + ChatColor.GOLD + " отсутствует в списке (Мульт)");
+		if (NoMultGroups.delPlayer(nick)) {
+			sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: "  + ChatColor.GREEN + nick  + ChatColor.GOLD + " удален из списка (Group)");
+		}else sender.sendMessage(ChatColor.DARK_RED + "[NoMult]: "  + ChatColor.GREEN + nick  + ChatColor.GOLD + " отсутствует в списке (Group)");		return true;
 	}
 
 	private boolean cmdCheck(CommandSender sender, String[] args) {

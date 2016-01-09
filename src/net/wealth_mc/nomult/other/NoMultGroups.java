@@ -35,13 +35,21 @@ public class NoMultGroups {
     }
 	
 	public synchronized void delOldGroupPlayer(String p){
-		try {
 		for(Map.Entry<String, String> entry : NoMult.instance.groups.entrySet()) {
 			if(entry.getKey().equals(p)) {
 				NoMult.instance.groups.remove(p);
 			}
 		}
-		} catch (Exception e){
-	     }
     }
+
+	public static boolean delPlayer(String p){
+		boolean is = false;
+		for(Map.Entry<String, String> entry : NoMult.instance.groups.entrySet()) {
+			if(entry.getKey().equals(p)) {
+				NoMult.instance.groups.remove(p);
+			is = true;	
+			}
+		}
+		return is;
+	}
 }

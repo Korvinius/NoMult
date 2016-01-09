@@ -84,7 +84,7 @@ public class NoMultRun implements Runnable {
 				            @Override
 				            public void run() {
 				            	NoMult.instance.getServer().broadcastMessage(ChatColor.GRAY + ppn 
-				            + NoMult.plmult);
+				            			+ " " + NoMult.plmult);
 				            }
 				        }.runTaskLater(NoMult.instance, 2);
 						return;
@@ -106,7 +106,7 @@ public class NoMultRun implements Runnable {
 		            @Override
 		            public void run() {
 		            	NoMult.instance.getServer().broadcastMessage(ChatColor.GRAY + ppn 
-		            + NoMult.plmult);
+		            + " " + NoMult.plmult);
 		            }
 		        }.runTaskLater(NoMult.instance, 2);
 				try {																			
@@ -128,7 +128,7 @@ public class NoMultRun implements Runnable {
 		            @Override
 		            public void run() {
 		            	NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + ppn + ChatColor.YELLOW
-								+ NoMult.plreg);
+		            			+ " " + NoMult.plreg);
 		            }
 		        }.runTaskLater(NoMult.instance, 2);
 				return;
