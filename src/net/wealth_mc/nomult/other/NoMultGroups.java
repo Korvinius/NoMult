@@ -10,7 +10,7 @@ public class NoMultGroups {
 	public String inOldGroupPlayer(String p){
 		String group = null;
 		try {
-		for(Map.Entry<String, String> entry : NoMult.instance.groups.entrySet()) {
+		for(Map.Entry<String, String> entry : NoMult.groups.entrySet()) {
 			if(entry.getKey().equals(p)) {
 				group = entry.getValue();
 			} else group = null; 
@@ -20,14 +20,14 @@ public class NoMultGroups {
 		return group;
     }
 	
-	public synchronized String inOldGroupPlayerRM(String p){
-		String dgrp = NoMult.instance.defgroup;
+	public static synchronized String inOldGroupPlayerRM(String p){
+		String dgrp = NoMult.defgroup;
 		String group = null;
 		try {
-		for(Map.Entry<String, String> entry : NoMult.instance.groups.entrySet()) {
+		for(Map.Entry<String, String> entry : NoMult.groups.entrySet()) {
 			if(entry.getKey().equals(p)) {
 				group = entry.getValue();
-				NoMult.instance.groups.remove(p);
+				NoMult.groups.remove(p);
 			} else group = dgrp; 
 		} 
 		} catch (Exception e){
@@ -36,7 +36,7 @@ public class NoMultGroups {
     }
 
 	public static boolean delPlayer(String p){
-		for(Iterator<Map.Entry<String, String>> it = NoMult.instance.groups.entrySet().iterator(); it.hasNext(); ) {
+		for(Iterator<Map.Entry<String, String>> it = NoMult.groups.entrySet().iterator(); it.hasNext(); ) {
 			Map.Entry<String, String> entry = it.next();
 			if(entry.getKey().equals(p)) {
 				it.remove();

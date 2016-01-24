@@ -27,7 +27,7 @@ public class YamlNotMult {
 	            e.printStackTrace();
 	        }
             if (cfg != null) {                
-                	NoMult.instance.notmult = cfg.getStringList("notmult");                 
+                	NoMult.notmult = cfg.getStringList("notmult");                 
  /*               if (NoMult.instance.debug) {
                     NoMult.instance.getLogger().info("notmult.yml add: " + NoMult.instance.notmult.toString());
                 }*/
@@ -37,7 +37,7 @@ public class YamlNotMult {
 	
 	public synchronized void saveNotMult(){
         YamlConfiguration cfg = new YamlConfiguration();
-        	cfg.set("notmult", NoMult.instance.notmult);
+        	cfg.set("notmult", NoMult.notmult);
         File f = new File (NoMult.instance.getDataFolder()+File.separator+"notmult.yml");
         if (f.exists()) f.delete();
         try {

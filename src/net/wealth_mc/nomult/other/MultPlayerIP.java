@@ -6,15 +6,15 @@ import net.wealth_mc.nomult.NoMult;
 
 public class MultPlayerIP{
 	
-	public synchronized void addMultPlayerIP(String p, String ip) {
+	public static synchronized void addMultPlayerIP(String p, String ip) {
 		 try {
-			 NoMult.instance.mult.put(p, new String(ip));
+			 NoMult.mult.put(p, new String(ip));
 	     } catch (Exception e){
 	     }
 	}
 
 	public static boolean rmMultPlayer(String p) {
-		for(Iterator<Map.Entry<String, String>> it = NoMult.instance.mult.entrySet().iterator(); it.hasNext(); ) {
+		for(Iterator<Map.Entry<String, String>> it = NoMult.mult.entrySet().iterator(); it.hasNext(); ) {
 			Map.Entry<String, String> entry = it.next();
 			if(entry.getKey().equals(p)) {
 				it.remove();
@@ -26,7 +26,7 @@ public class MultPlayerIP{
 
 	public static boolean rmMultIP(String ip) {
 		boolean is = false;
-		for(Iterator<Map.Entry<String, String>> it = NoMult.instance.mult.entrySet().iterator(); it.hasNext(); ) {
+		for(Iterator<Map.Entry<String, String>> it = NoMult.mult.entrySet().iterator(); it.hasNext(); ) {
 			Map.Entry<String, String> entry = it.next();
 			if(entry.getValue().equals(ip)) {
 				it.remove();

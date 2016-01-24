@@ -21,10 +21,16 @@ public class NoMult extends JavaPlugin {
 	public static NoMult instance;	
 	private FileConfiguration config;
 	
-	public Map<String, String> mult = new HashMap<String, String>();
-	public Map<String, String> groups = new HashMap<String, String>();
-	public List<String> notmult;
+	public static Map<String, String> mult = new HashMap<String, String>();
+	public static Map<String, String> groups = new HashMap<String, String>();
+	public static List<String> notmult;
 	public static Set<Player> playerlogin = new HashSet<Player>();
+	public static Set<Player> playerischeck = new HashSet<Player>();
+	
+	public static final String permADMIN = "nomult.admin";
+	public static final String permIGNORE = "nomult.ignore";
+	public static final String permPRIORITY = "nomult.priority";
+	public static final String permSPY = "nomult.spy";
 	
 	private NoMultCmd nomultcmd;
 	private YamlMult yamlmult = new YamlMult();
@@ -32,8 +38,8 @@ public class NoMult extends JavaPlugin {
 	private YamlGroup yamlgroup = new YamlGroup();
 	
 	public boolean debug = false;
-	public String ngroup;
-	public String defgroup;
+	public static String ngroup;
+	public static String defgroup;
 	public long times;
 	public static boolean blockjoin;
 	public static boolean blockleave;

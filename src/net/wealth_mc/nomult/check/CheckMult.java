@@ -7,22 +7,18 @@ import net.wealth_mc.nomult.NoMult;
 
 public class CheckMult {
 	
-	public boolean checkMult(String p, String ip) {
+	public static boolean checkMult(String p, String ip) {
 		Map<String, String> tempmult = new HashMap<String, String>();
-//		try {
-			for(Map.Entry<String, String> entry : NoMult.instance.mult.entrySet()) {
-				String a = entry.getKey();
-				String b = entry.getValue();
-				if(entry.getValue().equals(ip) && !entry.getKey().equals(p)) {					
-					tempmult.put(a, b);			
-				}
-			}		
-//		} catch (Exception e){		
-//		}
+		for(Map.Entry<String, String> entry : NoMult.mult.entrySet()) {
+			String a = entry.getKey();
+			String b = entry.getValue();
+			if(entry.getValue().equals(ip) && !entry.getKey().equals(p)) {
+				tempmult.put(a, b);
+			}
+		}
 		if (tempmult.isEmpty()) {
-		return false;
+			return false;
 		}
 		return true;
 	}
-
 }

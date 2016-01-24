@@ -21,13 +21,13 @@ public class YamlMult {
         try {
             YamlConfiguration cfg = new YamlConfiguration();
             File f = new File (NoMult.instance.getDataFolder()+File.separator+"mult.yml");
-            NoMult.instance.mult.clear();
+            NoMult.mult.clear();
             if (f.exists()) {
                 cfg.load(f);
                 Set<String> keys = cfg.getKeys(false);
                 if (keys.size()>0)
                     for (String key : keys)
-                    	NoMult.instance.mult.put(key, cfg.getString(key));
+                    	NoMult.mult.put(key, cfg.getString(key));
                 
             }
         } catch (Exception e){
@@ -41,8 +41,8 @@ public class YamlMult {
 	public synchronized void saveMult(){
         try {
             YamlConfiguration cfg = new YamlConfiguration();
-            for (String key : NoMult.instance.mult.keySet()){
-                cfg.set(key, NoMult.instance.mult.get(key));
+            for (String key : NoMult.mult.keySet()){
+                cfg.set(key, NoMult.mult.get(key));
             } 
             File f = new File (NoMult.instance.getDataFolder()+File.separator+"mult.yml");
             if (f.exists()) f.delete();

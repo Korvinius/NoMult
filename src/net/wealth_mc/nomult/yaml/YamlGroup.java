@@ -17,13 +17,13 @@ public class YamlGroup {
         try {
             YamlConfiguration cfg = new YamlConfiguration();
             File f = new File (NoMult.instance.getDataFolder()+File.separator+"group.yml");
-            NoMult.instance.groups.clear();
+            NoMult.groups.clear();
             if (f.exists()) {
                 cfg.load(f);
                 Set<String> keys = cfg.getKeys(false);
                 if (keys.size()>0)
                     for (String key : keys)
-                    	NoMult.instance.groups.put(key, cfg.getString(key));
+                    	NoMult.groups.put(key, cfg.getString(key));
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -33,8 +33,8 @@ public class YamlGroup {
 	public synchronized void saveGroupPlayer(){
         try {
             YamlConfiguration cfg = new YamlConfiguration();
-            for (String key : NoMult.instance.groups.keySet()){
-                cfg.set(key, NoMult.instance.groups.get(key));
+            for (String key : NoMult.groups.keySet()){
+                cfg.set(key, NoMult.groups.get(key));
             } 
             File f = new File (NoMult.instance.getDataFolder()+File.separator+"group.yml");
             if (f.exists()) f.delete();

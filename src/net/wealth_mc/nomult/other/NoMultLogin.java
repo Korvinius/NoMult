@@ -19,23 +19,26 @@ public class NoMultLogin implements Runnable {
 	}
 	@Override
 	public void run() {
-		playerAddRemove(player, addrm);
-	}
-
-	private synchronized void playerAddRemove(Player p, boolean login) {
-		if (login) {
-			NoMult.playerlogin.add(p);
-			if (!p.hasPermission("nomult.spy")) {
-				NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + p.getName() 
-						+ ChatColor.YELLOW + " " + NoMult.plogin);
-			}
-		}else if (NoMult.playerlogin.contains(p)) {
-			NoMult.playerlogin.remove(p);
-			if (!p.hasPermission("nomult.spy")) {
-				NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + p.getName() 
-						+ ChatColor.YELLOW + " " + NoMult.plogout);
-			}
+		if (addrm) {
+			if (!NoMult.playerlogin.contains(player)) playerAdd(player);
+		}else if (NoMult.playerlogin.contains(player)) {
+			playerRemove(player);
 		}
 	}
 
+	private void playerAdd(Player p) {
+		NoMult.playerlogin.add(p);
+		if (!p.hasPermission(NoMult.permSPY) && !p.hasPermission(NoMult.permADMIN)) {
+			NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + p.getName() 
+					+ ChatColor.YELLOW + " " + NoMult.plogin);
+		}
+	}
+
+	private void playerRemove(Player p) {
+		NoMult.playerlogin.remove(p);
+		if (!p.hasPermission(NoMult.permSPY) && !p.hasPermission(NoMult.permADMIN)) {
+			NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + p.getName() 
+					+ ChatColor.YELLOW + " " + NoMult.plogout);
+		}
+	}
 }

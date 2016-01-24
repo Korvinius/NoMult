@@ -6,9 +6,9 @@ import net.wealth_mc.nomult.NoMult;
 
 public class CheckMultPlayer {
 	
-	public boolean checkMultPlayer(String p) {
+	public static boolean checkMultPlayer(String p) {
 		
-		for(Map.Entry<String, String> entry : NoMult.instance.mult.entrySet()) {		
+		for(Map.Entry<String, String> entry : NoMult.mult.entrySet()) {		
 			if(entry.getKey().equals(p)) {
 				return true;
 			}

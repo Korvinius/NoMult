@@ -18,7 +18,8 @@ public class NoMultVault {
 	public static void init() {
         if (checkVault()){
             vault_perm = setupPermissions();            
-            NoMult.instance.getLogger().info("Плагин Vault обнаружен!");
+        }else {
+        	NoMult.instance.getLogger().info("ВНИМАНИЕ! Плагин Vault НЕ обнаружен!");
         }
     }
     private static boolean checkVault(){
@@ -37,23 +38,23 @@ public class NoMultVault {
         return vault_perm;
     }
 	
-	public String getPrimaryGroup (Player p){
+	public static String getPrimaryGroup (Player p){
 		if (!isPermissionConected()) return "player";
 		return permission.getPrimaryGroup(p);
 	}
 
-    public boolean playerAddGroup (Player p, String group){
+    public static boolean playerAddGroup (Player p, String group){
         if (!isPermissionConected()) return false;
         
         return permission.playerAddGroup(null, p.getPlayer(), group);
     }
 
-    public boolean playerInGroup(Player p, String group) {
+    public static boolean playerInGroup(Player p, String group) {
         if (!isPermissionConected()) return false;
         return permission.playerInGroup(p, group);
     }
 
-    public boolean playerRemoveGroup(Player p, String group) {
+    public static boolean playerRemoveGroup(Player p, String group) {
         if (!isPermissionConected()) return false;
         
         return permission.playerRemoveGroup(null, p.getPlayer(), group);

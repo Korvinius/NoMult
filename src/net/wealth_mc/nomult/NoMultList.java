@@ -40,10 +40,12 @@ public class NoMultList implements Listener {
 
 	@EventHandler
 	   public void onQuitPlayer(PlayerQuitEvent event){
+		Player player = event.getPlayer();
 		if (NoMult.blockleave) {
 			event.setQuitMessage(null);
-			new NoMultLogin(event.getPlayer(), false);
+			new NoMultLogin(player, false);
 		}
+		if (NoMult.playerischeck.contains(player)) NoMult.playerischeck.remove(player);
 	}
 
 	@EventHandler
