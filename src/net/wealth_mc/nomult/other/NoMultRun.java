@@ -31,21 +31,25 @@ public class NoMultRun implements Runnable {
 		NoMultJobs.rmMultCheck(player); // Снять тень вначале проверки
 		
 		if (player.hasPermission(NoMult.permIGNORE) || player.hasPermission(NoMult.permADMIN)) { // если у игрока есть права - "nomult.ignore" прервать проверку
-			if (NoMult.instance.debug) NoMult.instance.getLogger().info("Игрок: " + ppn + " Имеет право: - " + NoMult.permIGNORE + " Проверка завершена!");			
+			if (NoMult.instance.debug) NoMult.instance.getLogger().info("Игрок: " + ppn + " Имеет право: - " + NoMult.permIGNORE + " Проверка завершена!");
+			NoMult.instance.saveConf();
 			return;						
 		}
 		
 		if (player.hasPermission(NoMult.permPRIORITY)) {
 			NoMultJobs.noMultPriority(player);
+			NoMult.instance.saveConf();
 			return;
 		}
 
 		if (CheckMult.checkMult(ppn, pip)) {// Обработка игрока присутствующего в списке (Не Мульт)
 			if (NoMultJobs.isNoMult(player)) {
+				NoMult.instance.saveConf();
 				return;
 			}
 			// Обработка игрока, которого нет в списке (Не мульт) но есть мульты, 
 			NoMultJobs.isMult(player); // добавляем в список мультов, изменяем группу и сохраняем текущую группу.
+			NoMult.instance.saveConf();
 			return;
 		}
 		NoMultJobs.isPlayerNomult(player);//Если игрок не мульт или впервые на сервере

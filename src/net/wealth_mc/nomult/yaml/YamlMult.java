@@ -33,9 +33,6 @@ public class YamlMult {
         } catch (Exception e){
             e.printStackTrace();
         }
-        /*if (NoMult.instance.debug) {
-        	NoMult.instance.getLogger().info(NoMult.instance.mult.entrySet().toString());
-		}*/
     }
 
 	public synchronized void saveMult(){

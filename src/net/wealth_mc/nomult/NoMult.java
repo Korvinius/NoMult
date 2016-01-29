@@ -10,11 +10,9 @@ import net.wealth_mc.nomult.other.NoMultVault;
 import net.wealth_mc.nomult.yaml.YamlGroup;
 import net.wealth_mc.nomult.yaml.YamlMult;
 import net.wealth_mc.nomult.yaml.YamlNotMult;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
 public class NoMult extends JavaPlugin {	
 	
@@ -24,7 +22,6 @@ public class NoMult extends JavaPlugin {
 	public static Map<String, String> mult = new HashMap<String, String>();
 	public static Map<String, String> groups = new HashMap<String, String>();
 	public static List<String> notmult;
-	public static Set<Player> playerlogin = new HashSet<Player>();
 	public static Set<Player> playerischeck = new HashSet<Player>();
 	
 	public static final String permADMIN = "nomult.admin";
@@ -40,7 +37,6 @@ public class NoMult extends JavaPlugin {
 	public boolean debug = false;
 	public static String ngroup;
 	public static String defgroup;
-	public long times;
 	public static boolean blockjoin;
 	public static boolean blockleave;
 	public static String plogin;
@@ -59,7 +55,6 @@ public class NoMult extends JavaPlugin {
 		debug = config.getBoolean("debug");
 		ngroup = config.getString("group");
 		defgroup = config.getString("default");
-		times = config.getLong("times");
 		plogin = config.getString("message");
 		plogout = config.getString("message2");
 		plmult = config.getString("message3");
@@ -81,17 +76,6 @@ public class NoMult extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new NoMultList(this), this);
 		
 		NoMultVault.init();
-
-		times = times * 20;
-		BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-		scheduler.scheduleSyncRepeatingTask(this, new Runnable() {  
-        	@Override            
-            public void run() {
-        		yamlmult.saveMult();
-        		yamlnotmult.saveNotMult();
-        		yamlgroup.saveGroupPlayer();
-            }
-        }, 0L, times);
 	}
 	
 	@Override

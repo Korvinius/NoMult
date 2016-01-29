@@ -2,7 +2,6 @@ package net.wealth_mc.nomult;
 
 import java.net.InetAddress;
 
-import net.wealth_mc.nomult.other.NoMultLogin;
 import net.wealth_mc.nomult.other.NoMultRun;
 
 import org.bukkit.ChatColor;
@@ -28,7 +27,7 @@ public class NoMultList implements Listener {
 	@EventHandler
 	public void onPlayerAchievementAwarded (PlayerAchievementAwardedEvent event) {
 		Player p = event.getPlayer();
-		if (!NoMult.playerlogin.contains(p)) {
+		if (!NoMult.playerischeck.contains(p)) {
 			event.setCancelled(true);
 		}
 	}
@@ -43,18 +42,22 @@ public class NoMultList implements Listener {
 		Player player = event.getPlayer();
 		if (NoMult.blockleave) {
 			event.setQuitMessage(null);
-			new NoMultLogin(player, false);
 		}
-		if (NoMult.playerischeck.contains(player)) NoMult.playerischeck.remove(player);
+		if (NoMult.playerischeck.contains(player)) {
+			if (NoMult.blockleave 
+					&& !player.hasPermission(NoMult.permSPY) 
+					&& !player.hasPermission(NoMult.permADMIN)) {
+				NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + player.getName() 
+						+ ChatColor.YELLOW + " " + NoMult.plogout);
+			}
+			NoMult.playerischeck.remove(player);
+		}
 	}
 
 	@EventHandler
 	public void onAuthLoginEvent(LoginEvent event) {
 		Player player = event.getPlayer();
 		new NoMultRun(player);
-		if (NoMult.blockjoin) {
-			new NoMultLogin(player, true);
-		}
 	}
 
 	@EventHandler(priority = EventPriority.LOW)

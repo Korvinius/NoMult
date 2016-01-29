@@ -24,11 +24,13 @@ public class NoMultJobs {
 			NoMult.instance.getLogger().info("Игрок: " + ppn + " НЕ МУЛЬТ");
 			NoMult.instance.getLogger().info("Игрок: " + ppn + " обновлен в базе (Nick-IP) с адресом: " + pip);
 			}
+			joinMessage(player);
 			return;
 		}else {
 			NotMultPlayer.addNotMultPlayer(ppn);
 			MultPlayerIP.addMultPlayerIP(ppn, pip);
 			if (NoMult.instance.debug) NoMult.instance.getLogger().info("Игрок: " + ppn + " Добавлен в базу (Not-Mult)");
+			joinMessage(player);
 			return;
 		}
 	}
@@ -48,10 +50,7 @@ public class NoMultJobs {
 			NoMult.instance.getLogger().info("Игрок: " + ppn + " добавлен в базу (Nick-IP) с адресом: " + pip);
 			NoMult.instance.getLogger().info("Игрок: " + ppn + " Добавлен в базу (Not-Mult)");
 			}
-			if (!player.hasPermission(NoMult.permSPY)) {
-				NoMult.instance.getServer().broadcastMessage(ChatColor.GRAY + ppn
-						+ " " + NoMult.plreg);
-			}
+			registerMessage(player);
 			return;
 		}
 		MultPlayerIP.addMultPlayerIP(ppn, pip);
@@ -59,6 +58,7 @@ public class NoMultJobs {
 		NoMult.instance.getLogger().info("Игрок: " + ppn + " уже был на сервере");
 		NoMult.instance.getLogger().info("Игрок: " + ppn + " обновлен в базе (Nick-IP) с адресом: " + pip);	
 		}
+		joinMessage(player);
 	}
 
 	/**
@@ -75,10 +75,7 @@ public class NoMultJobs {
 		NoMultVault.playerRemoveGroup(player, group);
 		NoMultVault.playerAddGroup(player, NoMult.ngroup);
 		if (NoMult.instance.debug) NoMult.instance.getLogger().info("Игроку " + ppn + " изменена группа, на: " + NoMult.ngroup);
-		if (!player.hasPermission(NoMult.permSPY)) {
-			NoMult.instance.getServer().broadcastMessage(ChatColor.GRAY + ppn 
-					+ " " + NoMult.plmult);
-		}
+		multMessage(player);
 	}
 	
 	/**
@@ -104,14 +101,12 @@ public class NoMultJobs {
 					NoMult.groups.put(ppn, group);					
 			     } catch (Exception e){
 			     }
-				if (!player.hasPermission(NoMult.permSPY)) {
-					NoMult.instance.getServer().broadcastMessage(ChatColor.GRAY + ppn
-							+ " " + NoMult.plmult);
-				}
+				multMessage(player);
 				return true;							
 			}
 			MultPlayerIP.addMultPlayerIP(ppn, pip);
 			if (NoMult.instance.debug) NoMult.instance.getLogger().info("адрес: " + pip + " приствуют мульты, но игрок: " + ppn + " есть в базе (Не Мульт)");
+			joinMessage(player);
 			return true;
 		}
 		return false;
@@ -134,4 +129,24 @@ public class NoMultJobs {
 		}
 	}
 	
+	public static void joinMessage(Player p) {
+		if (!p.hasPermission(NoMult.permSPY) && !p.hasPermission(NoMult.permADMIN)) {
+			NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + p.getName() 
+					+ ChatColor.YELLOW + " " + NoMult.plogin);
+		}
+	}
+
+	public static void registerMessage(Player p) {
+		if (!p.hasPermission(NoMult.permSPY) && !p.hasPermission(NoMult.permADMIN)) {
+			NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + p.getName()
+					+ ChatColor.YELLOW + " " + NoMult.plreg);
+		}
+	}
+
+	public static void multMessage(Player p) {
+		if (!p.hasPermission(NoMult.permSPY)) {
+			NoMult.instance.getServer().broadcastMessage(ChatColor.GRAY + p.getName()
+					+ " " + NoMult.plmult);
+		}
+	}
 }
