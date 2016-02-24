@@ -16,10 +16,10 @@
 debug: true
 group: newgroup
 default: default 
-message: подключился к серверу!
-message2: отключился от сервера!
-message3: по результатам проверки является мультиаккаунтом!
-message4: впервые зашел на сервер!
+message: '%player% подключился к серверу!'
+message2: '%player% отключился от сервера!'
+message3: '%player% по результатам проверки является мультиаккаунтом!'
+message4: '%player% впервые зашел на сервер!'
 pvp: true
 blockjoin: true
 blockleave: true

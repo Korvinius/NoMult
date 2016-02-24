@@ -10,6 +10,8 @@ import net.wealth_mc.nomult.other.NoMultVault;
 import net.wealth_mc.nomult.yaml.YamlGroup;
 import net.wealth_mc.nomult.yaml.YamlMult;
 import net.wealth_mc.nomult.yaml.YamlNotMult;
+
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -55,10 +57,11 @@ public class NoMult extends JavaPlugin {
 		debug = config.getBoolean("debug");
 		ngroup = config.getString("group");
 		defgroup = config.getString("default");
-		plogin = config.getString("message");
-		plogout = config.getString("message2");
-		plmult = config.getString("message3");
-		plreg = config.getString("message4");
+		plogin = toStringColor(config.getString("message"));
+		plogout = toStringColor(config.getString("message2"));
+		plmult = toStringColor(config.getString("message3"));
+		plreg = toStringColor(config.getString("message4"));
+
 		blockjoin  = config.getBoolean("blockjoin");
 		blockleave  = config.getBoolean("blockleave");
 		pvp  = config.getBoolean("pvp");
@@ -91,10 +94,10 @@ public class NoMult extends JavaPlugin {
 		debug = config.getBoolean("debug");
 		ngroup = config.getString("group");
 		defgroup = config.getString("default");
-		plogin = config.getString("message");
-		plogout = config.getString("message2");
-		plmult = config.getString("message3");
-		plreg = config.getString("message4");
+		plogin = toStringColor(config.getString("message"));
+		plogout = toStringColor(config.getString("message2"));
+		plmult = toStringColor(config.getString("message3"));
+		plreg = toStringColor(config.getString("message4"));
 		blockjoin  = config.getBoolean("blockjoin");
 		blockleave  = config.getBoolean("blockleave");
 		pvp  = config.getBoolean("pvp");
@@ -106,4 +109,7 @@ public class NoMult extends JavaPlugin {
 		yamlgroup.saveGroupPlayer();
 	}
 	
+	public static String toStringColor(String input) {
+	    return ChatColor.translateAlternateColorCodes('&', input);
+}
 }

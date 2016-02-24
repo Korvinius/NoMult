@@ -131,22 +131,22 @@ public class NoMultJobs {
 	
 	public static void joinMessage(Player p) {
 		if (!p.hasPermission(NoMult.permSPY) && !p.hasPermission(NoMult.permADMIN)) {
-			NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + p.getName() 
-					+ ChatColor.YELLOW + " " + NoMult.plogin);
+			NoMult.instance.getServer().broadcastMessage(ChatColor.YELLOW
+					+ NoMult.plogin.replace("%player%", p.getName()));
 		}
 	}
 
 	public static void registerMessage(Player p) {
 		if (!p.hasPermission(NoMult.permSPY) && !p.hasPermission(NoMult.permADMIN)) {
-			NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + p.getName()
-					+ ChatColor.YELLOW + " " + NoMult.plreg);
+			NoMult.instance.getServer().broadcastMessage(ChatColor.YELLOW
+					+ NoMult.plreg.replace("%player%", p.getName()));
 		}
 	}
 
 	public static void multMessage(Player p) {
 		if (!p.hasPermission(NoMult.permSPY)) {
-			NoMult.instance.getServer().broadcastMessage(ChatColor.GRAY + p.getName()
-					+ " " + NoMult.plmult);
+			NoMult.instance.getServer().broadcastMessage(ChatColor.GRAY
+					+ NoMult.plmult.replace("%player%", p.getName()));
 		}
 	}
 }

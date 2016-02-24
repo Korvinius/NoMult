@@ -47,8 +47,8 @@ public class NoMultList implements Listener {
 			if (NoMult.blockleave 
 					&& !player.hasPermission(NoMult.permSPY) 
 					&& !player.hasPermission(NoMult.permADMIN)) {
-				NoMult.instance.getServer().broadcastMessage(ChatColor.GOLD + player.getName() 
-						+ ChatColor.YELLOW + " " + NoMult.plogout);
+				NoMult.instance.getServer().broadcastMessage(ChatColor.YELLOW 
+						+ NoMult.plogout.replace("%player%", player.getName()));
 			}
 			NoMult.playerischeck.remove(player);
 		}
